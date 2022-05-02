@@ -81,7 +81,7 @@ public class Board : MonoBehaviour
 		return gamePiecePrefabs[randomIdx];
     }
 
-	void PlaceGamePiece (GamePiece gamePiece, int x, int y)
+	public void PlaceGamePiece (GamePiece gamePiece, int x, int y)
     {
 		if (gamePiece == null)
         {
@@ -89,9 +89,21 @@ public class Board : MonoBehaviour
 			return;
 		}
 
-		gamePiece.transform.position = new Vector3(x, y, 0);
+		gamePiece.transform.position = new Vector3(x, y, 0); //sets position
 		gamePiece.transform.rotation = Quaternion.identity;
-		gamePiece.SetCoord(x, y); 
+
+		if (IsWithinBounds(x,y))
+        {
+			m_allGamePieces[x, y] = gamePiece; //updates correct element
+		}
+
+		
+		gamePiece.SetCoord(x, y); //invokes setcoord methord
+    }
+
+	bool IsWithinBounds(int x, int y)
+    {
+		return (x >= 0 && x < width && y >= 0 && y < height);
     }
 
 	void FillRandom()
@@ -104,7 +116,9 @@ public class Board : MonoBehaviour
 
 				if (randomPiece != null)
 				{
+					randomPiece.GetComponent<GamePiece>().Init(this);
 					PlaceGamePiece(randomPiece.GetComponent<GamePiece>(), i, j);
+					randomPiece.transform.parent = transform;
 
 				}
 
@@ -143,14 +157,22 @@ public class Board : MonoBehaviour
 			SwitchTiles(m_clickedTile, m_targetTile);
 			
         }
-    }
+
+		m_clickedTile = null;
+		m_targetTile = null;
+	}
 
 	void SwitchTiles( Tile clickedTile, Tile targetTile)
     {
 		//add code to switch corresponding gamepieces
 
-		m_clickedTile = null;
-		m_targetTile = null;
+		GamePiece clickedPiece = m_allGamePieces[clickedTile.xIndex, clickedTile.yIndex];
+		GamePiece targetPiece = m_allGamePieces[targetTile.xIndex , targetTile.yIndex];
+
+		clickedPiece.Move(targetTile.xIndex, targetTile.yIndex, 0.5f);
+		targetPiece.Move(clickedTile.xIndex, clickedTile.yIndex, 0.5f);
+
+		
     }
 
 }
