@@ -13,6 +13,8 @@ public class Board : MonoBehaviour
 	public GameObject tilePrefab;
 	public GameObject[] gamePiecePrefabs;
 
+	public float swapTime = 0.5f;
+
 	//Arrays
 	Tile[,] m_allTiles;
 	GamePiece[,] m_allGamePieces;
@@ -136,14 +138,14 @@ public class Board : MonoBehaviour
 		if (m_clickedTile == null)
         {
 			m_clickedTile = tile;
-			Debug.Log("Clicked tile" + tile.name);
+			//Debug.Log("Clicked tile" + tile.name);
 
         }
     }
 
 	public void DragToTile(Tile tile)
     {
-		if (m_clickedTile != null)
+		if (m_clickedTile != null && IsNextTo(tile , m_clickedTile))
         {
 			m_targetTile = tile;
         }
@@ -169,10 +171,26 @@ public class Board : MonoBehaviour
 		GamePiece clickedPiece = m_allGamePieces[clickedTile.xIndex, clickedTile.yIndex];
 		GamePiece targetPiece = m_allGamePieces[targetTile.xIndex , targetTile.yIndex];
 
-		clickedPiece.Move(targetTile.xIndex, targetTile.yIndex, 0.5f);
-		targetPiece.Move(clickedTile.xIndex, clickedTile.yIndex, 0.5f);
+		clickedPiece.Move(targetTile.xIndex, targetTile.yIndex, swapTime);
+		targetPiece.Move(clickedTile.xIndex, clickedTile.yIndex, swapTime);
 
 		
     }
+
+	bool IsNextTo(Tile start, Tile end)
+    {
+		if (Mathf.Abs(start.xIndex - end.xIndex) == 1 && start.yIndex == end.yIndex)
+        {
+			return true;
+        }
+
+		if (Mathf.Abs(start.yIndex - end.yIndex) == 1 && start.xIndex == end.xIndex)
+		{
+			return true;
+		}
+
+		return false;
+
+	}
 
 }
