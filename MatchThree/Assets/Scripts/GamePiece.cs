@@ -30,6 +30,7 @@ public class GamePiece : MonoBehaviour
     void Update()
     {
        
+        /*
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             Move((int)transform.position.x + 2, (int)transform.position.y, 0.5f);
@@ -38,7 +39,7 @@ public class GamePiece : MonoBehaviour
         {
             Move((int)transform.position.x - 2, (int)transform.position.y, 0.5f);
         }
-        
+        */
     }
 
     public void SetCoord(int x, int y)
