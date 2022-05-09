@@ -1,6 +1,8 @@
 using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
+using System.Collections.Generic;
+
 
 public class GamePiece : MonoBehaviour
 {
@@ -20,6 +22,22 @@ public class GamePiece : MonoBehaviour
         EaseIn,
         SmoothStep,
         SmootherStep
+    }
+
+    public MatchValue matchValue;
+
+    public enum MatchValue
+    {
+        Yellow,
+        Blue,
+        Megenta,
+        Indigo,
+        Green,
+        Teal,
+        Red,
+        Cyan,
+        Wild
+
     }
 
     // Start is called before the first frame update
