@@ -180,16 +180,30 @@ public class Board : MonoBehaviour
 		GamePiece clickedPiece = m_allGamePieces[clickedTile.xIndex, clickedTile.yIndex];
 		GamePiece targetPiece = m_allGamePieces[targetTile.xIndex, targetTile.yIndex];
 
-		clickedPiece.Move(targetTile.xIndex, targetTile.yIndex, swapTime);
-		targetPiece.Move(clickedTile.xIndex, clickedTile.yIndex, swapTime);
+		if (targetPiece != null && clickedPiece != null)
+		{
 
-		yield return new WaitForSeconds(swapTime);
+			clickedPiece.Move(targetTile.xIndex, targetTile.yIndex, swapTime);
+			targetPiece.Move(clickedTile.xIndex, clickedTile.yIndex, swapTime);
 
-		List<GamePiece> clickedPieceMatches = FindMatchesAt(clickedTile.xIndex, clickedTile.yIndex);
-		List<GamePiece> targetPieceMatches = FindMatchesAt(targetTile.xIndex, targetTile.yIndex);
+			yield return new WaitForSeconds(swapTime);
 
-		HighlightMatchesAt(clickedTile.xIndex, clickedTile.yIndex);
-		HighlightMatchesAt(targetTile.xIndex, targetTile.yIndex);
+			List<GamePiece> clickedPieceMatches = FindMatchesAt(clickedTile.xIndex, clickedTile.yIndex);
+			List<GamePiece> targetPieceMatches = FindMatchesAt(targetTile.xIndex, targetTile.yIndex);
+
+			if (targetPieceMatches.Count == 0 && clickedPieceMatches.Count == 0)
+			{
+				clickedPiece.Move(clickedTile.xIndex, clickedTile.yIndex, swapTime);
+				targetPiece.Move(targetTile.xIndex, targetTile.yIndex, swapTime);
+
+			}
+
+			yield return new WaitForSeconds(swapTime);
+
+			HighlightMatchesAt(clickedTile.xIndex, clickedTile.yIndex);
+			HighlightMatchesAt(targetTile.xIndex, targetTile.yIndex);
+
+		}
 
 	}
 
