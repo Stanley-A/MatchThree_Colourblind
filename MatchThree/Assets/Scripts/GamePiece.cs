@@ -9,11 +9,26 @@ public class GamePiece : MonoBehaviour
     public int xIndex;
     public int yIndex;
 
+    SpriteRenderer spriteRenderer;
+
     Board m_board;
 
     bool m_isMoving = false;
 
     public InterpType interpolation = InterpType.SmootherStep;
+
+
+    //accesses the sprites colour
+    public Color GetColor()
+    {
+        return GetComponent<SpriteRenderer>().color;
+
+    }
+
+    public void SetColor(Color newColor)
+    {
+        GetComponent<SpriteRenderer>().color = newColor;
+    }
 
     public enum InterpType
     {
@@ -43,7 +58,7 @@ public class GamePiece : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -157,6 +172,11 @@ public class GamePiece : MonoBehaviour
 
         m_isMoving = false;
     }
+
+
+
+
+ 
 }
 
    
